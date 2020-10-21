@@ -86,6 +86,33 @@ class Scanner
 					advance();
 				}
 			}
+			else if (match('*'))
+			{
+				while (!isAtEnd())
+				{
+					if (match('*'))
+					{
+						if (isAtEnd())
+						{
+							break;	
+						}
+						else if (match('/'))
+						{
+							return;		// Sucessfully matched end multiline comment, we can just return
+						}
+					}
+					else
+					{
+						advance();
+					}
+				}
+				
+				if (isAtEnd())
+				{
+					Lox.error(line, "Unterminated multiline comment!");
+					return;
+				}
+			}
 			else
 			{
 				addToken(SLASH);
